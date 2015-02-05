@@ -106,6 +106,10 @@ class Admin_Content_Labels_Filters {
 		if ( false === strpos( $query->get( 'orderby' ), 'title' ) ) {
 			return $query;
 		}
+		// Bail if the current query contains an ACF field.
+		if ( false !== strpos( $query->get( 'post_type' ), 'acf-field' ) ) {
+			return $query;
+		}
 		$query->set( 'orderby', str_replace( 'title', 'meta_value title', $query->get( 'orderby' ) ) );
 		$query->set( 'meta_key', '_admin_content_label' );
 		return $query;

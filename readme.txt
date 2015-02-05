@@ -23,6 +23,10 @@ If you'd like to submit code patches or contribute in any other way, please fork
 
 == Changelog ==
 
+= 1.1.1 =
+
+Fixed a conflict with Advanced Custom Fields
+
 = 1.1.0 =
 
 - Improved installation procedure (Props @shawnhooper)
