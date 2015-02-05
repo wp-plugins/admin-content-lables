@@ -4,7 +4,7 @@ Contributors: fatmedia, wpsitecare
 Tags: content, admin, title, label, labels, wp-admin, admin panel
 Requires at least: 4.1
 Tested up to: 4.1
-Stable tag: 1.1.0
+Stable tag: 1.1.2
 License: GPL-2.0+
 
 Add admin-specific labels to your WordPress posts, pages, and custom post types to make managing your content easier.
@@ -23,9 +23,13 @@ If you'd like to submit code patches or contribute in any other way, please fork
 
 == Changelog ==
 
+= 1.1.2 =
+
+Made sure ACF fix works for both free and pro variants.
+
 = 1.1.1 =
 
-Fixed a conflict with Advanced Custom Fields
+Fixed a conflict with Advanced Custom Fields.
 
 = 1.1.0 =
 

@@ -3,7 +3,7 @@
  * Plugin Name:  Admin Content Labels
  * Plugin URI:   http://www.wpsitecare.com/admin-content-labels/
  * Description:  Categorize your content within wp-admin using admin-specific labels.
- * Version:      1.1.1
+ * Version:      1.1.2
  * Author:       Robert Neu
  * Author URI:   https://github.com/robneu
  * License:      GPL-2.0+
@@ -21,7 +21,7 @@ if ( ! defined( 'ADMIN_CONLAB_FILE' ) ) {
 }
 // Define the plugin version.
 if ( ! defined( 'ADMIN_CONLAB_VERSION' ) ) {
-	define( 'ADMIN_CONLAB_VERSION', '1.1.1' );
+	define( 'ADMIN_CONLAB_VERSION', '1.1.2' );
 }
 // Define the plugin folder path.
 if ( ! defined( 'ADMIN_CONLAB_DIR' ) ) {

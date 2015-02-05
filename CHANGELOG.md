@@ -1,6 +1,10 @@
+# 1.1.2
+
+Made sure ACF fix works for both free and pro variants.
+
 ## 1.1.1
 
-Fixed a conflict with Advanced Custom Fields
+Fixed a conflict with Advanced Custom Fields.
 
 ## 1.1.0
 
