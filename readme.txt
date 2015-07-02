@@ -23,6 +23,15 @@ If you'd like to submit code patches or contribute in any other way, please fork
 
 == Changelog ==
 
+= 1.2.0 =
+
+Various code improvements including:
+
+- Minified JavaScript
+- Improved data escaping
+- Tidied plugin structure
+- Added data class to make interacting with labels more straight-forward
+
 = 1.1.2 =
 
 Made sure ACF fix works for both free and pro variants.

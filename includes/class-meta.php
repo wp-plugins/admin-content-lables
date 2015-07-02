@@ -4,25 +4,15 @@
  *
  * @package     AdminContentLabels
  * @author      Robert Neu
- * @copyright   Copyright (c) 2014, Robert Neu
+ * @copyright   Copyright (c) 2015, Robert Neu
  * @license     GPL-2.0+
  * @since       1.0.0
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
-class Admin_Content_Labels_Meta {
-
-	/**
-	 * An empty placeholder for referencing the main plugin class.
-	 *
-	 * @since 1.0.0
-	 * @var   object
-	 */
-	protected $plugin;
+class Admin_Content_Labels_Meta extends Admin_Content_Labels_Data {
 
 	/**
 	 * The meta key for admin content labels.
@@ -33,6 +23,18 @@ class Admin_Content_Labels_Meta {
 	protected $key = '_admin_content_label';
 
 	/**
+	 * A script prefix to load minified assets on production sites.
+	 *
+	 * @since 1.2.0
+	 * @var   string
+	 */
+	protected $suffix;
+
+	public function __construct() {
+		$this->suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+	}
+
+	/**
 	 * Get the class running!
 	 *
 	 * @since  1.0.0
@@ -40,7 +42,6 @@ class Admin_Content_Labels_Meta {
 	 * @return void
 	 */
 	public function run() {
-		$this->plugin = admin_content_lables();
 		$this->wp_hooks();
 	}
 
@@ -68,7 +69,7 @@ class Admin_Content_Labels_Meta {
 		if ( 'post-new.php' === $hook || 'post.php' === $hook ) {
 			wp_enqueue_script(
 				'admin-content-labels',
-				ADMIN_CONLAB_URL . 'js/admin-content-labels.js',
+				ADMIN_CONLAB_URL . "js/admin-content-labels{$this->suffix}.js",
 				array( 'jquery' ),
 				ADMIN_CONLAB_VERSION,
 				true
@@ -90,16 +91,8 @@ class Admin_Content_Labels_Meta {
 			return;
 		}
 
-		$label = $this->plugin->has_admin_label() ? $this->plugin->get_admin_label() : '';
-		?>
-		<div id="admin-content-label-wrap" class="misc-pub-section admin-content-label" style="position:relative;">
-			<?php wp_nonce_field( plugin_basename( ADMIN_CONLAB_FILE ), 'admin_content_labels_nonce' ); ?>
-			<label id="admin-content-label-enter" class="screen-reader-text" for="<?php echo $this->key; ?>" style="position:absolute; color: #777; padding: 5px; cursor: text;">
-				<?php _e( 'Enter admin label here', 'admin-content-labels' ); ?>
-			</label>
-			<input id="admin-content-label-input" class="widefat" name="<?php echo $this->key; ?>" value="<?php echo esc_attr( $label ); ?>" type="text">
-		</div>
-		<?php
+		$label = $this->has_label() ? $this->get_label() : '';
+		require ADMIN_CONLAB_DIR . 'templates/label-form.php';
 	}
 
 	/**
@@ -107,16 +100,13 @@ class Admin_Content_Labels_Meta {
 	 * saving meta box data is running.
 	 *
 	 * @since  1.0.0
-	 * @access public
+	 * @access protected
 	 * @return void
 	 */
-	function stop_label_save() {
-		$stops = array(
-			defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE,
-			defined( 'DOING_AJAX' ) && DOING_AJAX,
-			defined( 'DOING_CRON' ) && DOING_CRON,
-		);
-		return in_array( true, $stops );
+	protected function stop_label_save() {
+		return defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ||
+			defined( 'DOING_AJAX' ) && DOING_AJAX ||
+			defined( 'DOING_CRON' ) && DOING_CRON;
 	}
 
 	/**
@@ -133,10 +123,11 @@ class Admin_Content_Labels_Meta {
 			return;
 		}
 
-		$nonce = isset( $_POST['admin_content_labels_nonce'] ) ? $_POST['admin_content_labels_nonce'] : '';
+		$no  = 'admin_content_labels_nonce';
+		$act = plugin_basename( ADMIN_CONLAB_FILE );
 
 		//	Bail if we can't verify the nonce.
-		if ( ! wp_verify_nonce( $nonce, plugin_basename( ADMIN_CONLAB_FILE ) ) ) {
+		if ( ! isset( $_POST[ $no ] ) || ! wp_verify_nonce( $_POST[ $no ], $act ) ) {
 			return;
 		}
 

@@ -35,7 +35,6 @@
 					prompt.removeClass( 'screen-reader-text' );
 				}
 			});
-
 		});
 	}
 

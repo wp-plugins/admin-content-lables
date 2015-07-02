@@ -4,25 +4,15 @@
  *
  * @package     AdminContentLabels
  * @author      Robert Neu
- * @copyright   Copyright (c) 2014, Robert Neu
+ * @copyright   Copyright (c) 2015, Robert Neu
  * @license     GPL-2.0+
  * @since       1.0.0
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
-class Admin_Content_Labels_Filters {
-
-	/**
-	 * An empty placeholder for referencing the main plugin class.
-	 *
-	 * @since 1.0.0
-	 * @var   object
-	 */
-	protected $plugin;
+class Admin_Content_Labels_Filters extends Admin_Content_Labels_Data {
 
 	/**
 	 * Get the class running!
@@ -32,7 +22,6 @@ class Admin_Content_Labels_Filters {
 	 * @return void
 	 */
 	public function run() {
-		$this->plugin = admin_content_lables();
 		$this->wp_hooks();
 	}
 
@@ -58,10 +47,10 @@ class Admin_Content_Labels_Filters {
 	 * @return string modified post title
 	 */
 	public function the_admin_label( $title ) {
-		if ( ! $this->plugin->has_admin_label() ) {
+		if ( ! $this->has_label() ) {
 			return $title;
 		}
-		return $this->plugin->get_admin_label();
+		return $this->get_label();
 	}
 
 	/**
@@ -80,8 +69,8 @@ class Admin_Content_Labels_Filters {
 		}
 
 		foreach ( $pages as $page ) {
-			if ( $this->plugin->has_admin_label( $page->ID ) ) {
-				$page->post_title = $this->plugin->get_admin_label( $page->ID );
+			if ( $this->has_label( $page->ID ) ) {
+				$page->post_title = $this->get_label( $page->ID );
 			}
 		}
 
